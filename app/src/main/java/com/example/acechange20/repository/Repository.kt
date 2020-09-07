@@ -12,19 +12,23 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.reflect.full.memberProperties
 
-class Repository(databaseCompanion: CurrencyDatabase.Companion, context: Context, private val retrofit: Retrofit){
+class Repository(
+    databaseCompanion: CurrencyDatabase.Companion,
+    context: Context,
+    private val retrofit: Retrofit
+) {
     private val database = databaseCompanion.getInstance(context)
 
     //monitor cached results in database
     val cachedResults = database.currencyDao().getCache()
 
     //get rates from api
-    fun getAllRates(){
+    fun getAllRates() {
         val job = Job()
         val ioScope = CoroutineScope(Dispatchers.IO + job)
 
         ioScope.launch {
-            val rates = retrofit.retrofitApi.getAllRates("EUR").await()
+            val rates = retrofit.retrofitApi.getAllRates(BaseCurrency.baseCurrency.value).await()
 
             convertRatesToCurrencyEntity(rates)
             job.cancel()
@@ -34,12 +38,12 @@ class Repository(databaseCompanion: CurrencyDatabase.Companion, context: Context
     //convert rates to database entity
     private fun convertRatesToCurrencyEntity(rates: ExchangeDto) {
         val results = mutableListOf<CurrencyEntity>()
-        for (i in ExchangeRates::class.memberProperties){
-            i.get(rates.rates)?.let{
+        for (i in ExchangeRates::class.memberProperties) {
+            i.get(rates.rates)?.let {
                 results.add(CurrencyEntity(i.name, it as Float))
             }
         }
-        
+
         cacheResults(results)
     }
 

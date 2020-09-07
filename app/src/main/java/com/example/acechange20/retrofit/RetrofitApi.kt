@@ -24,7 +24,7 @@ private val retrofit = Retrofit.Builder()
 //app api
 interface RetrofitApi {
     @GET("latest")
-    fun getAllRates(@Query("base") baseCurrency: String): Deferred<ExchangeDto>
+    fun getAllRates(@Query("base") baseCurrency: String?): Deferred<ExchangeDto>
 }
 
 object Retrofit{

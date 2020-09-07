@@ -5,27 +5,31 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.example.acechange20.database.entities.CurrencyEntity
 import com.example.acechange20.database.entities.toRecyclerViewObject
+import com.example.acechange20.repository.BaseCurrency
 import com.example.acechange20.repository.Repository
 import com.example.acechange20.screens.recyclerview.RecyclerViewObject
 
 class AllRatesViewModel(private val repository: Repository) : ViewModel() {
     val recyclerViewObject = MutableLiveData<List<RecyclerViewObject>>()
 
-    init {
-        monitorCachedResults()
-    }
-
     //get currency
-    fun getAllRates(){
+    fun getAllRates() {
         repository.getAllRates()
     }
 
+    private val cachedResultsObserver = Observer<List<CurrencyEntity>> { results ->
+        val recyclerList = mutableListOf<CurrencyEntity>()
+        results.forEach {
+            if (it.currency != BaseCurrency.baseCurrency.value) {
+                recyclerList.add(it)
+            }
+        }
+        recyclerViewObject.value = recyclerList.toRecyclerViewObject()
+    }
 
     //monitor the cached results
-    private fun monitorCachedResults() {
-        repository.cachedResults.observeForever{results ->
-            recyclerViewObject.value = results.toRecyclerViewObject()
-        }
+    fun monitorCachedResults() {
+        repository.cachedResults.observeForever(cachedResultsObserver)
     }
 
     //check for internet availability
@@ -40,4 +44,9 @@ class AllRatesViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+
+        repository.cachedResults.removeObserver(cachedResultsObserver)
+    }
 }
