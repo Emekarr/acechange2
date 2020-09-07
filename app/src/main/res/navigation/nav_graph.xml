@@ -15,5 +15,10 @@
         android:name="com.example.acechange20.screens.fragments.ChartsFragment"
         android:label="fragment_charts"
         tools:layout="@layout/fragment_charts" />
+    <fragment
+        android:id="@+id/convert_Fragment"
+        android:name="com.example.acechange20.screens.fragments.ConvertFragment"
+        android:label="fragment_convert"
+        tools:layout="@layout/fragment_convert" />
 
 </navigation>

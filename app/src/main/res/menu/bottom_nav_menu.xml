@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_charts"
         android:id="@+id/charts_Fragment" />
 
+    <item
+        android:title="fragment convert"
+        android:icon="@drawable/ic_convert_rates"
+        android:id="@+id/convert_Fragment" />
+
 </menu>
