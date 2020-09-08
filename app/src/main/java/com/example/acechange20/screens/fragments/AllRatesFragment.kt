@@ -14,10 +14,11 @@ import com.example.acechange20.screens.recyclerview.RecyclerView
 import com.example.acechange20.screens.viewmodel.AllRatesViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.get
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class AllRatesFragment : Fragment() {
     private val viewModel: AllRatesViewModel by lazy {
-        get<AllRatesViewModel>()
+        getViewModel<AllRatesViewModel>()
     }
     private lateinit var binding: FragmentAllRatesBinding
     private val baseCurrencyDialogFragment = get<BaseCurrencyDialogFragment>()
@@ -57,6 +58,7 @@ class AllRatesFragment : Fragment() {
         // Inflate the layout for this fragment
         return binding.root
     }
+
 
     private fun selectBaseCurrency() {
         binding.baseCurrency.setOnClickListener {

@@ -1,14 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".screens.fragments.ConvertFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <variable
+            name="convertValue"
+            type="com.example.acechange20.screens.fragments.ConvertValues" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="10dp">
 
-</FrameLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/converterFragmentHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use the app as a currency converter"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/convertFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="convert from"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/converterFragmentHeader" />
+
+        <Spinner
+            android:id="@+id/convertFromSpinner"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/convertFrom"
+            app:layout_constraintTop_toTopOf="@id/convertFrom" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/convertTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="convert to"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/convertFrom" />
+
+        <Spinner
+            android:id="@+id/convertToSpinner"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/convertTo"
+            app:layout_constraintTop_toTopOf="@id/convertTo" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/convertedResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textColor="@android:color/black"
+            android:textSize="52sp"
+            android:text="@{convertValue.convertedValue}"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:maxLength="7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/convertTo" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/convertButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="170dp"
+            android:text="convert"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/convertTo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
