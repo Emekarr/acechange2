@@ -41,11 +41,6 @@ class ConvertViewModel(private val repository: Repository) : ViewModel() {
         repository.cachedResults.observeForever(cachedResultsObserver)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-
-        repository.cachedResults.removeObserver(cachedResultsObserver)
-    }
 
     fun convertCurrencies(currency1: String?, currency2: String?): String{
         var value1 = 0f
@@ -61,5 +56,11 @@ class ConvertViewModel(private val repository: Repository) : ViewModel() {
             }
         }
         return (value1 / value2).toString()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        repository.cachedResults.removeObserver(cachedResultsObserver)
     }
 }

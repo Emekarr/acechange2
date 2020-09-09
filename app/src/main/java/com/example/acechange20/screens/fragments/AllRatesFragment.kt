@@ -1,6 +1,7 @@
 package com.example.acechange20.screens.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.acechange20.R
 import com.example.acechange20.databinding.FragmentAllRatesBinding
 import com.example.acechange20.repository.BaseCurrency
 import com.example.acechange20.screens.recyclerview.RecyclerView
+import com.example.acechange20.screens.recyclerview.RecyclerViewObject
 import com.example.acechange20.screens.viewmodel.AllRatesViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.get
@@ -59,7 +61,6 @@ class AllRatesFragment : Fragment() {
         return binding.root
     }
 
-
     private fun selectBaseCurrency() {
         binding.baseCurrency.setOnClickListener {
             baseCurrencyDialogFragment.show(requireActivity().supportFragmentManager, "")
@@ -93,10 +94,13 @@ class AllRatesFragment : Fragment() {
         val adapter = get<RecyclerView>()
         binding.recyclerView.adapter = adapter
 
+        adapter.submitList(listOf(RecyclerViewObject("test", 1.2f)))
+
         viewModel.recyclerViewObject.observe(viewLifecycleOwner, Observer { currencies ->
             currencies?.let {
                 adapter.submitList(it)
             }
         })
     }
+
 }
