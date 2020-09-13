@@ -12,7 +12,6 @@ import com.example.acechange20.R
 import com.example.acechange20.databinding.FragmentAllRatesBinding
 import com.example.acechange20.repository.BaseCurrency
 import com.example.acechange20.screens.recyclerview.RecyclerView
-import com.example.acechange20.screens.recyclerview.RecyclerViewObject
 import com.example.acechange20.screens.viewmodel.AllRatesViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.get
@@ -30,23 +29,14 @@ class AllRatesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        getImageIfConnectedToInternet()
+
         viewModel.monitorCachedResults()
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_rates, container, false)
 
         binding.baseCurency = BaseCurrency
         binding.lifecycleOwner = this
-
-        //call get all rates
-        if (viewModel.checkInternetAvailability()) viewModel.getAllRates()
-        else Snackbar.make(
-            binding.snackBarLayout,
-            "Please check your internet connection",
-            Snackbar.LENGTH_SHORT
-        ).show()
-
-        //set up the recycler view
-        setUpRecyclerView()
 
         //set up swipe to refresh
         swipeToRefreshPage()
@@ -57,8 +47,16 @@ class AllRatesFragment : Fragment() {
         //check for when base currency is changed and make a new request
         observeBaseCurrency()
 
+        //set up recyclerview
+        setUpRecyclerView()
+
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun getImageIfConnectedToInternet(){
+        if (viewModel.checkInternetAvailability()) viewModel.getAllRates()
+        else Snackbar.make(binding.snackBarLayout, "Please check your internet connection", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun selectBaseCurrency() {
@@ -67,7 +65,7 @@ class AllRatesFragment : Fragment() {
         }
     }
 
-    private fun observeBaseCurrency(){
+    private fun observeBaseCurrency() {
         BaseCurrency.baseCurrency.observe(viewLifecycleOwner, Observer {
             if (viewModel.checkInternetAvailability()) viewModel.getAllRates()
             else Snackbar.make(
@@ -94,12 +92,8 @@ class AllRatesFragment : Fragment() {
         val adapter = get<RecyclerView>()
         binding.recyclerView.adapter = adapter
 
-        adapter.submitList(listOf(RecyclerViewObject("test", 1.2f)))
-
         viewModel.recyclerViewObject.observe(viewLifecycleOwner, Observer { currencies ->
-            currencies?.let {
-                adapter.submitList(it)
-            }
+                adapter.submitList(currencies)
         })
     }
 

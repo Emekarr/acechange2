@@ -4,16 +4,16 @@
     <item
         android:title="fragment rates"
         android:icon="@drawable/ic_rates"
-        android:id="@+id/allRates_Fragment"/>
+        android:id="@+id/allRatesFragment"/>
 
     <item
         android:title="fragment charts"
         android:icon="@drawable/ic_charts"
-        android:id="@+id/charts_Fragment" />
+        android:id="@+id/chartsFragment" />
 
     <item
         android:title="fragment convert"
         android:icon="@drawable/ic_convert_rates"
-        android:id="@+id/convert_Fragment" />
+        android:id="@+id/convertFragment" />
 
 </menu>

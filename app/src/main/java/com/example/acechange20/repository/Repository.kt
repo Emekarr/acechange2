@@ -15,7 +15,8 @@ import kotlin.reflect.full.memberProperties
 class Repository(
     databaseCompanion: CurrencyDatabase.Companion,
     context: Context,
-    private val retrofit: Retrofit
+    private val retrofit: Retrofit,
+    private val baseCurrency: BaseCurrency
 ) {
     private val database = databaseCompanion.getInstance(context)
 
@@ -28,7 +29,7 @@ class Repository(
         val ioScope = CoroutineScope(Dispatchers.IO + job)
 
         ioScope.launch {
-            val rates = retrofit.retrofitApi.getAllRates(BaseCurrency.baseCurrency.value).await()
+            val rates = retrofit.retrofitApi.getAllRates(baseCurrency.baseCurrency.value).await()
 
             convertRatesToCurrencyEntity(rates)
             job.cancel()
